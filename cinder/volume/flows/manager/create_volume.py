@@ -11,6 +11,7 @@
 #    under the License.
 
 import traceback
+import os
 
 from oslo_concurrency import processutils
 from oslo_config import cfg
@@ -673,6 +674,10 @@ class CreateVolumeFromSpecTask(flow_utils.CinderTask):
         return model_update
 
     def _create_raw_volume(self, volume_ref, **kwargs):
+	if (os.path.isfile('/etc/cinder/axcient')):
+	    volid = volume_ref['id']
+	    LOG.debug('axcient : Marking the axcient volume bootable')
+	    self._enable_bootable_flag(context, volid)
         return self.driver.create_volume(volume_ref)
 
     def execute(self, context, volume_ref, volume_spec):

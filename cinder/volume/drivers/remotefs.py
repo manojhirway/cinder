@@ -250,11 +250,17 @@ class RemoteFSDriver(driver.LocalVD, driver.TransferVD, driver.BaseVD):
 
         if getattr(self.configuration,
                    self.driver_prefix + '_sparsed_volumes'):
-            self._create_sparsed_file(volume_path, volume_size)
+            # If touch file exist, set the bootable flag for the volume
+            if (os.path.isfile('/etc/cinder/axcient')):
+                LOG.debug('axcient : setting bootable flag for the volume')
+                	volume['bootable'] = 1
+                self._create_sparsed_file(volume_path, volume_size, volume)
+	    	else:
+                self._create_sparsed_file(volume_path, volume_size)
+                self._set_rw_permissions(volume_path)
         else:
             self._create_regular_file(volume_path, volume_size)
-
-        self._set_rw_permissions(volume_path)
+            self._set_rw_permissions(volume_path)
 
     def _ensure_shares_mounted(self):
         """Look for remote shares in the flags and mount them locally."""
