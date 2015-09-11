@@ -72,7 +72,7 @@ CONF = cfg.CONF
 CONF.register_opts(nfs_opts)
 
 
-class AxcientDriver(remotefs.RemoteFSDriver):
+class RecogImageDriver(remotefs.RemoteFSDriver):
     """NFS based cinder driver. Creates file on NFS share for using it
     as block device on hypervisor.
     """
@@ -84,7 +84,7 @@ class AxcientDriver(remotefs.RemoteFSDriver):
 
     def __init__(self, execute=putils.execute, *args, **kwargs):
         self._remotefsclient = None
-        super(AxcientDriver, self).__init__(*args, **kwargs)
+        super(RecogImageDriver, self).__init__(*args, **kwargs)
         self.configuration.append_config_values(nfs_opts)
         root_helper = utils.get_root_helper()
         # base bound to instance is used in RemoteFsConnector.
@@ -109,7 +109,7 @@ class AxcientDriver(remotefs.RemoteFSDriver):
             nfs_mount_options=opts)
 
     def set_execute(self, execute):
-        super(AxcientDriver, self).set_execute(execute)
+        super(RecogImageDriver, self).set_execute(execute)
         if self._remotefsclient:
             self._remotefsclient.set_execute(execute)
 
@@ -119,7 +119,7 @@ class AxcientDriver(remotefs.RemoteFSDriver):
         
     def do_setup(self, context):
         """Any initialization the volume driver does while starting."""
-        super(AxcientDriver, self).do_setup(context)
+        super(RecogImageDriver, self).do_setup(context)
 
         config = self.configuration.nfs_shares_config
         if not config:

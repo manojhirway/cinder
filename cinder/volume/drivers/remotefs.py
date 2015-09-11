@@ -251,10 +251,11 @@ class RemoteFSDriver(driver.LocalVD, driver.TransferVD, driver.BaseVD):
         if getattr(self.configuration,
                    self.driver_prefix + '_sparsed_volumes'):
             # If touch file exist, set the bootable flag for the volume
-            if (os.path.isfile('/etc/cinder/axcient')):
-                LOG.debug('axcient : setting bootable flag for the volume')
+            if (os.path.isfile('/etc/cinder/recogimage')):
+                LOG.debug('DEBUG : setting bootable flag for the volume')
                 	volume['bootable'] = 1
                 self._create_sparsed_file(volume_path, volume_size, volume)
+				# Do not try to change permissions of the file here, as we are operating on a sym-link that is not local 
 	    	else:
                 self._create_sparsed_file(volume_path, volume_size)
                 self._set_rw_permissions(volume_path)

@@ -674,7 +674,7 @@ class CreateVolumeFromSpecTask(flow_utils.CinderTask):
         return model_update
 
     def _create_raw_volume(self, volume_ref, **kwargs):
-	if (os.path.isfile('/etc/cinder/axcient')):
+	if (os.path.isfile('/etc/cinder/recogimage')):
 	    volid = volume_ref['id']
 	    LOG.debug('axcient : Marking the axcient volume bootable')
 	    self._enable_bootable_flag(context, volid)
